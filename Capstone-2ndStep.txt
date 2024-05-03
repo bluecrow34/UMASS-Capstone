@@ -1,0 +1,32 @@
+Applicant tracking system
+Applicant can sign up (jwts)
+Store the password as a hash (use built-in library), not as plain text in your database
+They can fill out a form mentioning their preferred position, their tech stack, etc
+On the backend, we write an api endpoint for signup
+We persist all the data to a database
+List of open jobs (put some dummy job details in the details). We don’t need functionality to apply for jobs.
+
+Recruiter can also signup/login
+Recruiter sees a list of job seekers
+Recruiter can filter based in different fields
+
+		Schema of ATS System
+
+Users (name, email, userRole (enum: Applicant or a Recruiter))
+Jobs (job title, location, pay, description)
+
+Example query for listing job seekers:
+
+Select * from Users where role = ‘Applicant’
+
+
+1.) Main languages usesd will be python and flask
+2.) Project should be pretty evenly balanced between frontend and backend. Pulling info from api and storing sensitive passwords as well.
+3.) This will just be a website
+4.) The goal is to create an Applicant tracking system
+5.) This website site would be used by Recruiters posting jobs for their company and Candidates looking for a job
+6.) I will create my own API, storing user info, job info, etc.
+7.) 
+  c. Passwords would be the only sensitive info to store
+  d. Creating profile, posting job, apply to job
+  f. Stretch goal would be to have steps in hiring process(applied, interview, onboarding, hired)
