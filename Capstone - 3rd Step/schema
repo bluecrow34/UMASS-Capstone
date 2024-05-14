@@ -1,5 +1,6 @@
-CREATE TABLE recruiter (
-  username VARCHAR(25) PRIMARY KEY,
+CREATE TABLE Recruiter (
+id SERIAL PRIMARY KEY,
+  username VARCHAR(25),
   password TEXT NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
@@ -8,9 +9,29 @@ CREATE TABLE recruiter (
   is_admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE companies (
-  handle VARCHAR(25) PRIMARY KEY CHECK (handle = lower(handle)),
+CREATE TABLE Companies (
+id SERIAL PRIMARY KEY,
   name TEXT UNIQUE NOT NULL,
-  num_employees INTEGER CHECK (num_employees >= 0),
-  description TEXT NOT NULL,
+  industry TEXT NOT NULL,
+  location TEXT NOT NULL,
+);
+
+CREATE TABLE Applicants (
+id SERIAL PRIMARY KEY,
+  username VARCHAR(25),
+  password TEXT NOT NULL,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT NOT NULL
+    CHECK (position('@' IN email) > 1),
+  company_id INTEGER FOREIGN KEY,
+);
+
+CREATE TABLE Jobs (
+  id SERIAL PRIMARY KEY,
+  title TEXT NOT NULL,
+  salary INTEGER CHECK (salary >= 0),
+  equity NUMERIC CHECK (equity <= 1.0),
+  company_handle VARCHAR(25) NOT NULL
+    REFERENCES companies ON DELETE CASCADE
 );
