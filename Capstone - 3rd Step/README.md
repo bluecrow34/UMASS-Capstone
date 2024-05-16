@@ -1,7 +1,6 @@
 /// Schema //
-
-CREATE TABLE Recruiter (
-id SERIAL PRIMARY KEY,
+CREATE TABLE recruiters (
+  id SERIAL PRIMARY KEY,
   username VARCHAR(25),
   password TEXT NOT NULL,
   first_name TEXT NOT NULL,
@@ -10,14 +9,14 @@ id SERIAL PRIMARY KEY,
     CHECK (position('@' IN email) > 1)
 );
 
-CREATE TABLE Companies (
+CREATE TABLE companies (
   id SERIAL PRIMARY KEY,
   name TEXT UNIQUE NOT NULL,
   industry TEXT NOT NULL,
   location TEXT NOT NULL
 );
 
-CREATE TABLE Applicants (
+CREATE TABLE applicants (
   id SERIAL PRIMARY KEY,
   username VARCHAR(25),
   password TEXT NOT NULL,
@@ -28,31 +27,35 @@ CREATE TABLE Applicants (
     CHECK (position('@' IN email) > 1),
   job_title TEXT NOT NULL,
   company_id INTEGER,
-  FOREIGN KEY (company_id) REFERENCES Companies(id)
+  FOREIGN KEY (company_id) REFERENCES companies(id)
 );
 
-CREATE TABLE Jobs (
+CREATE TABLE jobs (
   id SERIAL PRIMARY KEY,
   title TEXT NOT NULL,
   salary INTEGER CHECK (salary >= 0),
   company_id INTEGER,
-  FOREIGN KEY (company_id) REFERENCES Companies(id)
+  FOREIGN KEY (company_id) REFERENCES companies(id)
 );
 
-CREATE TABLE Interviews (
+CREATE TABLE interviews ( 
   id SERIAL PRIMARY KEY,
   application_id INTEGER,
   company_id INTEGER,
-  notes TEXT NOT NULL,
-  FOREIGN KEY (application_id) REFERENCES Applicants(id),
-  FOREIGN KEY (company_id) REFERENCES Companies(id)
+  notes VARCHAR(150),
+  FOREIGN KEY (application_id) REFERENCES applicants(id),
+  FOREIGN KEY (company_id) REFERENCES companies(id)
 );
 
 
-/// Database ///
 
 
-INSERT INTO Recruiter (username, password, first_name, last_name, email)
+
+
+/* Database */
+
+
+INSERT INTO recruiters (username, password, first_name, last_name, email)
 VALUES ('testuser',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'Test',
@@ -60,13 +63,13 @@ VALUES ('testuser',
         'joel@joelburton.com');
 
 
-INSERT INTO Companies (name, industry, location)
+INSERT INTO companies (name, industry, location)
 VALUES ('Bauer-Gallagher', 'Law', 'RI'),
         ('Jones Agency', 'Marketing', 'RI'),
         ('Bill Construction', 'Construction', 'RI');
 
 
-INSERT INTO Applicants (username, password, first_name, last_name, phone, email, job_title)
+INSERT INTO applicants (username, password, first_name, last_name, phone, email, job_title)
 VALUES ('applicant1',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'Sam',
@@ -88,12 +91,11 @@ VALUES ('applicant1',
         'Accountant');
 
 
-INSERT INTO Jobs (title, salary, company_id)
+INSERT INTO jobs (title, salary, company_id)
 VALUES ( 'Marketing Specialist', 110000, 2),
         ( 'Laborer', 90000, 3);
 
 
-INSERT INTO Interviews (application_id, company_id, notes)
+INSERT INTO interviews (application_id, company_id, notes)
 VALUES ( 1, 2, 'Sam interviewed with Greg from Jones Agency for the Marketing role' );
-
 
