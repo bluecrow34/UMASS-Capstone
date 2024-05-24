@@ -2,11 +2,11 @@
 CREATE TABLE recruiters (
   id SERIAL PRIMARY KEY,
   username VARCHAR(25),
-  password TEXT NOT NULL,
+  password_hash TEXT NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
-  email TEXT NOT NULL
-    CHECK (position('@' IN email) > 1)
+  email TEXT NOT NULL CHECK (POSITION('@' IN email) > 1)
+
 );
 
 CREATE TABLE companies (
@@ -19,12 +19,12 @@ CREATE TABLE companies (
 CREATE TABLE applicants (
   id SERIAL PRIMARY KEY,
   username VARCHAR(25),
-  password TEXT NOT NULL,
+  password_hash TEXT NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   phone VARCHAR(20),
-  email TEXT NOT NULL
-    CHECK (position('@' IN email) > 1),
+  email TEXT NOT NULL CHECK (POSITION('@' IN email) > 1)
+
   job_title TEXT NOT NULL,
   company_id INTEGER,
   FOREIGN KEY (company_id) REFERENCES companies(id)
@@ -35,6 +35,8 @@ CREATE TABLE jobs (
   title TEXT NOT NULL,
   salary INTEGER CHECK (salary >= 0),
   company_id INTEGER,
+  company_name TEXT UNIQUE NOT NULL,
+  FOREIGN KEY (company_name) REFERENCES companies(name),
   FOREIGN KEY (company_id) REFERENCES companies(id)
 );
 
@@ -47,6 +49,15 @@ CREATE TABLE interviews (
   FOREIGN KEY (company_id) REFERENCES companies(id)
 );
 
+CREATE TABLE applied ( 
+  id SERIAL PRIMARY KEY,
+  application_id INTEGER,
+  job_id INTEGER,
+  applied_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (application_id) REFERENCES applicants(id),
+  FOREIGN KEY (job_id) REFERENCES jobs(id)
+);
+
 
 
 
@@ -55,7 +66,7 @@ CREATE TABLE interviews (
 /* Database */
 
 
-INSERT INTO recruiters (username, password, first_name, last_name, email)
+INSERT INTO recruiters (username, password_hash, first_name, last_name, email)
 VALUES ('testuser',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'Test',
@@ -69,7 +80,7 @@ VALUES ('Bauer-Gallagher', 'Law', 'RI'),
         ('Bill Construction', 'Construction', 'RI');
 
 
-INSERT INTO applicants (username, password, first_name, last_name, phone, email, job_title)
+INSERT INTO applicants (username, password_hash, first_name, last_name, phone, email, job_title)
 VALUES ('applicant1',
         '$2b$12$AZH7virni5jlTTiGgEg4zu3lSvAw68qVEfSIOjJ3RqtbJbdW/Oi5q',
         'Sam',
@@ -91,11 +102,20 @@ VALUES ('applicant1',
         'Accountant');
 
 
-INSERT INTO jobs (title, salary, company_id)
-VALUES ( 'Marketing Specialist', 110000, 2),
-        ( 'Laborer', 90000, 3);
+INSERT INTO jobs (title, salary, company_id, company_name)
+VALUES ( 'Marketing Specialist', 110000, 2, 'Jones Agency'),
+        ( 'Laborer', 90000, 3, 'Bill Construction');
 
 
 INSERT INTO interviews (application_id, company_id, notes)
-VALUES ( 1, 2, 'Sam interviewed with Greg from Jones Agency for the Marketing role' );
+VALUES ( 1, 2, 'Sam interviewed with Greg from Jones Agency for the Marketing role' ),
+        ( 4, 2, 'Jon with Edwin from Jones Agency for the Marketing role' );
+
+
+INSERT INTO applied (application_id, job_id, applied_at)
+VALUES (4, 2, CURRENT_TIMESTAMP);
+
+
+
+
 
