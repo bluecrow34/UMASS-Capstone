@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/static/main.css">
+  <title>Applicant Tracker</title>
+</head>
+
+<body> 
+  <h1>Applicant Tracker</h1>
+  <div id="wrapper">
+    <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <!-- Nav -->
+
+    </div>
+</header>
+    <div class="row justify-content-md-center">
+      <div class="col-md-4">
+        <h2 class="join-message">Edit Your Profile.</h2>
+        <form method="POST" id="user_form">
+          {{ form.hidden_tag() }}
+  
+          {% for field in form if field.widget.input_type != 'hidden' and field.name != 'password' %}
+            {% for error in field.errors %}
+              <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+            {{ field(placeholder=field.label.text, class="form-control") }}
+          {% endfor %}
+  
+          <p>To confirm changes, enter your password:</p>
+          {% if form.password.errors %}
+            {% for error in form.password.errors %}
+              <span class="text-danger">
+              {{ error }}
+            </span>
+            {% endfor %}
+          {% endif %}
+          {{ form.password(placeholder="Enter your password to confirm", class="form-control") }}
+  
+            <div class="edit-btn-area">
+              <button class="btn btn-success">Update user info!</button>
+             <button> <a href="/users/{{ apps.id }}/profile" class="btn btn-outline-secondary">Cancel</a></button>
+            </div>
+          </form>
+        </div>
+      </div>
+    
+
+</body>
+
+</html> 
+

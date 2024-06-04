@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/static/main.css">
+  <title>Applicant Tracker</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <!-- <script>
+      $(document).ready(function() {
+          $('form.apply-job').on('submit', function(event) {
+              event.preventDefault();
+              var form = $(this);
+              var button = form.find('button');
+              $.ajax({
+                  type: form.attr('method'),
+                  url: form.attr('action'),
+                  data: form.serialize(),
+                  success: function(response) {
+                      button.text('Applied');
+                      button.prop('disabled', true);
+                      alert(response.message);
+                  },
+                  error: function() {
+                      alert('An error occurred. Please try again.');
+                  }
+              });
+          });
+      });
+  </script> -->
+</head>
+
+<body> 
+  <h1>Applicant Tracker</h1>
+  <div id="wrapper">
+    <!-- Header -->
+        <header id="header">
+            <div class="inner">
+                <!-- Nav -->
+                <nav role="navigation" id="nav">
+                  <ul>
+                    <li><a class="navbar" id="navbar" href="/master/{{recruiter.id}}">Home</a></li>
+                    <li><a class="navbar" id="navbar" href="/master/{{recruiter.id}}/jobs">Open Jobs</a></li>
+                    <li><a class="navbar" id="navbar" href="/master/{{recruiter.id}}/companies">Companies</a></li>
+                    <li><a class="navbar" id="navbar" href="/master/{{recruiter.id}}/profile">Edit All</a></li>
+                    <li><a class="navbar" id="navbar" href="/logout">Log Out</a></li>
+                  </ul>
+                  </ul> 
+                </nav>
+    </div>
+    </header>
+    <section>
+        <section>
+            {% with messages = get_flashed_messages(with_categories=true)%}
+            {% if messages %}
+              {% for x in messages %}
+              <div class="alert alert-danger alter-dismissable fade show" role="alert">{{ x }}</div>
+              <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+              {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <h1>Jobs for {{ recruiter.username }}</h1>
+    
+            <ul>
+                {% for job in jobs %}
+                    <li>
+                        <h3>{{ job.title }} at {{ job.company_id }}</h3>
+                        <form action="/master/{{ recruiter.id }}/jobs" method="post">
+                            <input type="hidden" name="job_id" value="{{ job.id }}">
+                            <button type="submit">Apply</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <br>
+            <h2>Interviews</h2>
+            <ul>
+                {% for interview in interviews %}
+                    <li>{{ interview.date }}: {{ interview.notes }}</li>
+                {% endfor %}
+            </ul>
+    
+            <button><a href="/master/{{ recruiter.id}}/profile/newinterview" class="btn btn-outline-secondary">Add Recent Interview</a></button>
+        </section>
+
+  
+</body>
+
+</html> 
