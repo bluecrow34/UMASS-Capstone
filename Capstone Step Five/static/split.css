@@ -1,0 +1,95 @@
+.CardTable {
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+}
+
+.CardTable > main {
+  display: flex;
+  width: 100%;
+  flex: 1;
+}
+
+.Card {
+  cursor: pointer;
+  margin: 8px;
+}
+
+
+.PokeDex {
+  flex: 1;
+  background: url("https://st2.depositphotos.com/3213441/12022/v/450/depositphotos_120226584-stock-illustration-pokemon-go-pokeball-seamless-texture.jpg");
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.PokeDex-buttons {
+  background-color: rgba(61, 125, 202, 0.9);
+  margin: 10px 30px;
+  border-radius: 10px;
+  padding: 10px 0;
+  color: white;
+}
+
+.PokeDex-buttons h3 {
+  margin: 0;
+}
+
+.PokeDex-card-area {
+  flex: 1;
+}
+
+
+
+.PlayingCardList {
+  flex: 1;
+  flex-direction: column;
+  background: forestgreen;
+  border-radius: 10px;
+  margin: 10px;
+  color: white;
+}
+
+.PlayingCardList-card-area {
+  flex: 1;
+}
+
+
+
+.PokemonCard {
+  background-color: #ffcb05;
+  border-radius: 8px;
+  border: 5px solid #3d7dca;
+  box-sizing: border-box;
+  color: #003a70;
+  width: 40%;
+  display: inline-block;
+  height: 106px;
+}
+
+.PokemonCard img {
+  align-self: start;
+}
+
+.PokemonCard-front {
+  display: flex;
+}
+
+.PokemonCard-back {
+  text-align: left;
+}
+
+.PokemonCard-name {
+  margin: 0;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.PokemonCard-stats {
+  list-style-type: none;
+  font-size: 0.6em;
+  padding: 0;
+  text-align: right;
+  margin: 0;
+}

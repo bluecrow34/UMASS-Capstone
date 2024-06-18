@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/main.css">
+  <title>Applicant Tracker</title>
+</head>
+
+<body>
+  <h1>Applicant Tracker</h1>
+  <div id="wrapper">
+    <header id="header">
+      <div class="inner">
+        <nav role="navigation" id="nav">
+          <ul>
+            <li><a class="navbar" id="navbar" href="/master/{{ recruiter.id }}">Home</a></li>
+            <li><a class="navbar" id="navbar" href="/master/{{ recruiter.id }}/jobs">Open Jobs</a></li>
+            <li><a class="navbar" id="navbar" href="/master/{{ recruiter.id }}/companies">Companies</a></li>
+            <li><a class="navbar" id="navbar" href="/master/{{ recruiter.id }}/profile">Edit All</a></li>
+            <li><a class="navbar" id="navbar" href="/logout">Log Out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <section>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for x in messages %}
+          <div class="alert alert-danger alert-dismissable fade show" role="alert">{{ x }}</div>
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+      <h3>Current Recruiter: {{ recruiter.username }} </h3>
+      <br>
+      <button><a href="/master/{{ recruiter.id }}/profile/newrecruiter" class="btn btn-outline-secondary">Add New Recruiter</a></button>
+      <button><a href="/master/{{ recruiter.id }}/profile/edit" class="btn btn-outline-secondary">Edit Current Recruiter Profile</a></button>
+      <br>
+      <h1>Edit Applicants</h1>
+      <ul>
+        {% for x in applicants %}
+          <li>
+            {{ x.username }}, {{ x.first_name }}, {{ x.last_name }}
+            <form method="POST" action="/master/{{ x.id }}/delete/">
+              <input type="submit" value="Delete">
+            </form>
+          </li>
+        {% endfor %}
+        <button><a href="/master/{{ recruiter.id }}/profile/newapp" class="btn btn-outline-secondary">Add New Applicants</a></button>
+      </ul>
+      <br>
+      <h1>Edit Companies</h1>
+      <ul>
+        {% for y in companies %}
+          <li>
+            {{ y.name }}, {{ y.location }}
+            <form method="POST" action="/master/{{ y.id }}/delete/">
+              <input type="submit" value="Delete">
+            </form>
+          </li>
+        {% endfor %}
+        <button><a href="/master/{{ recruiter.id }}/profile/newcompanies" class="btn btn-outline-secondary">Add New Company</a></button>
+      </ul>
+      <br>
+      <h1>Edit Jobs</h1>
+      <ul>
+        {% for x in jobs %}
+          <li>
+            {{ x.title }}, {{ x.salary }}, {{ x.company_id }}
+            <form method="POST" action="/master/{{ x.id }}/delete/">
+              <input type="submit" value="Delete">
+            </form>
+          </li>
+        {% endfor %}
+        <button><a href="/master/{{ recruiter.id }}/profile/newjob" class="btn btn-outline-secondary">Add New Jobs</a></button>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>
