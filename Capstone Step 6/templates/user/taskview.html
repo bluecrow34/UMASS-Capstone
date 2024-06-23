@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/static/main.css">
+  <link rel="stylesheet" href="/static/todolist.css">
+  <title>Applicant Tracker</title>
+</head>
+
+<body> 
+  <h1>Applicant Tracker</h1>
+  <div id="wrapper">
+    <!-- Header -->
+        <header id="header">
+
+    </header>
+    <section>
+      {% with messages = get_flashed_messages(with_categories=true)%}
+      {% if messages %}
+        {% for x in messages %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">{{ x }}</div>
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+            <ul id="myUL">
+              {% for x in task %}
+              <li name="LI">
+               {{ x.notes }}  <form action="/tasks/delete/{{ task.id }}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+              </form>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+
+    <br>
+    <br>
+
+  <section>
+      <h2>Open Jobs</h2>
+      {% for y in jobs %}
+      <ul>
+      <a href="/users/jobs">{{ y.title }} </a>
+      <p>
+        <strong>Job Id</strong> {{ y.id }}
+        <strong>Salary</strong> {{ y.salary }}
+        <strong>Company</strong> {{ y.company_name }}
+        <strong>Position</strong> {{ y.title }}
+      </p>
+    </ul>
+      {% endfor %}
+  </section>
+<br>
+<br>
+  <section>
+    <h2>Company</h2>
+    <ul>
+        {% for x in companies %}
+      <a href="/users/companies">{{ x.name }} </a>
+    <p>
+       <strong>Company Id</strong> {{ x.id}}
+       <strong>Industry</strong> {{ x.industry }}
+       <strong>Location</strong> {{ x.location }}
+    </p>
+
+        {% endfor %}
+    </ul>
+</section>
+
+</body>
+
+</html> 
